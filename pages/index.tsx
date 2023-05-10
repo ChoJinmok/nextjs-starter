@@ -1,7 +1,22 @@
 import Head from 'next/head';
+import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import styles from '../styles/Home.module.css';
 
-export default function Home() {
+type Time = string;
+
+// getServerSideProps는 props를 return해야하는 규칙이 있음
+// return한 props는 해당 페이지에 전달된다.
+// 데이터를 서버에서 fetching할 수도 있음
+export const getServerSideProps:GetServerSideProps<{ time: Time }> = async () => {
+  // 서버에서 실행
+  console.log('server');
+
+  return {
+    props: { time: new Date().toISOString() },
+  };
+};
+
+export default function Home({ time }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div className={styles.container}>
       <Head>
@@ -11,9 +26,7 @@ export default function Home() {
 
       <main>
         <h1 className={styles.title}>
-          Welcome to
-          {' '}
-          <a href="https://nextjs.org">Next.js!</a>
+          {time}
         </h1>
       </main>
 
