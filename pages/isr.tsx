@@ -1,25 +1,24 @@
 import Head from 'next/head';
-import Link from 'next/link';
 
-import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
+import type { InferGetStaticPropsType, GetStaticProps } from 'next';
 
 import styles from '../styles/Home.module.css';
 
 type Time = string;
 
-// getServerSideProps는 props를 return해야하는 규칙이 있음
-// return한 props는 해당 페이지에 전달된다.
-// 데이터를 서버에서 fetching할 수도 있음
-export const getServerSideProps:GetServerSideProps<{ time: Time }> = async () => {
-  // 서버에서 실행
+export const getStaticProps:GetStaticProps<{ time: Time }> = async () => {
+  // 재생성할 때마다 실행
   console.log('server');
 
+  // isr하려면 revalidate 값을 함께 return해줘야한다. (revalidate 값을 캐싱해놓음)
+  // revalidate는 초단위
   return {
     props: { time: new Date().toISOString() },
+    revalidate: 1,
   };
 };
 
-export default function Home({ time }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function ISR({ time }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <div className={styles.container}>
       <Head>
@@ -31,12 +30,6 @@ export default function Home({ time }: InferGetServerSidePropsType<typeof getSer
         <h1 className={styles.title}>
           {time}
         </h1>
-
-        <ul>
-          <li><h1><Link href="/csr">CSR 로</Link></h1></li>
-          <li><h1><Link href="/ssg">SSG 로</Link></h1></li>
-          <li><h1><Link href="/isr">ISR 로</Link></h1></li>
-        </ul>
       </main>
 
       <footer>
