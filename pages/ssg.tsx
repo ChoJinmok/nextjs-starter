@@ -1,19 +1,23 @@
 import Head from 'next/head';
 
-import { useEffect, useState } from 'react';
+import type { InferGetStaticPropsType, GetStaticProps } from 'next';
 
 import styles from '../styles/Home.module.css';
 
-export default function CSR() {
-  const [time, setTime] = useState('');
+type Time = string;
 
-  useEffect(() => {
-    // 브라우저에서 실행
-    console.log('client');
+export const getStaticProps:GetStaticProps<{ time: Time }> = async () => {
+  // 빌드 시 한번만 실행, 서버에서도 찍히지 않는다.
+  console.log('server');
 
-    setTime(new Date().toISOString());
-  }, []);
+  // time은 빌드할 떄 시간으로 저장된다. 후에 업데이트 되지 않음
+  // data fetching을 ssg로 한다면 빌드 시 데이터를 모두 가져와서 static한 page를 미리 생성
+  return {
+    props: { time: new Date().toISOString() },
+  };
+};
 
+export default function SSG({ time }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <div className={styles.container}>
       <Head>
