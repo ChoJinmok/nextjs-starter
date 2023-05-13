@@ -10,7 +10,7 @@ type Time = string;
 // getServerSideProps는 props를 return해야하는 규칙이 있음
 // return한 props는 해당 페이지에 전달된다.
 // 데이터를 서버에서 fetching할 수도 있음
-export const getServerSideProps:GetServerSideProps<{ time: Time }> = async () => {
+export const getServerSideProps: GetServerSideProps<{ time: Time }> = async () => {
   // 서버에서 실행
   console.log('server');
 

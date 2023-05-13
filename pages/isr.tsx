@@ -6,7 +6,7 @@ import styles from '../styles/Home.module.css';
 
 type Time = string;
 
-export const getStaticProps:GetStaticProps<{ time: Time }> = async () => {
+export const getStaticProps: GetStaticProps<{ time: Time }> = async () => {
   // 재생성할 때마다 실행
   console.log('server');
 
