@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import SubLayout from '@/components/SubLayout';
 import styles from '../styles/Home.module.css';
 
 export default function CSR() {
@@ -19,3 +20,12 @@ export default function CSR() {
     </h1>
   );
 }
+
+CSR.getLayout = function getLayout(page: React.ReactElement) {
+  return (
+    <SubLayout>
+      {page}
+    </SubLayout>
+
+  );
+};

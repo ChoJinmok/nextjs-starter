@@ -1,5 +1,7 @@
 import type { InferGetStaticPropsType, GetStaticProps } from 'next';
 
+import SubLayout from '@/components/SubLayout';
+
 import styles from '../styles/Home.module.css';
 
 type Time = string;
@@ -23,3 +25,11 @@ export default function ISR({ time }: InferGetStaticPropsType<typeof getStaticPr
     </h1>
   );
 }
+
+ISR.getLayout = function getLayout(page: React.ReactElement) {
+  return (
+    <SubLayout>
+      {page}
+    </SubLayout>
+  );
+};
